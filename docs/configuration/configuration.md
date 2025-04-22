@@ -2261,6 +2261,8 @@ The following meta labels are available on targets during [relabeling](#relabel_
 
 The `postgres_flex` role discovers scrape targets per [PostgresFlex API](https://docs.api.eu01.stackit.cloud/documentation/postgres-flex-service/version/v2#tag/instance).
 
+For the Scrape configuration to function properly, a valid Authorization Bearer Token must be configured.
+
 The following meta labels are available on targets during [relabeling](#relabel_config):
 
 * `__meta_stackit_postgres_flex_id`: Instance's unique identifier.
