@@ -107,6 +107,7 @@ type Role string
 const (
 	RoleServer       Role = "server" // STACKIT IAAS API (Server)
 	RolePostgresFlex Role = "postgres_flex"
+	RoleMongoDbFlex  Role = "mongodb_flex"
 )
 
 // UnmarshalYAML implements the yaml.Unmarshaler interface.
@@ -118,6 +119,8 @@ func (c *Role) UnmarshalYAML(unmarshal func(interface{}) error) error {
 	case RoleServer:
 		return nil
 	case RolePostgresFlex:
+		return nil
+	case RoleMongoDbFlex:
 		return nil
 	default:
 		return fmt.Errorf("unknown role %q", *c)
@@ -188,6 +191,8 @@ func newRefresher(conf *SDConfig, l *slog.Logger) (refresher, error) {
 		return newServerDiscovery(conf, l)
 	case RolePostgresFlex:
 		return newPostgresFlexDiscovery(conf, l)
+	case RoleMongoDbFlex:
+		return newMongoDBFlexDiscovery(conf, l)
 	}
 	return nil, errors.New("unknown STACKIT discovery role")
 }
