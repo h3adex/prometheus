@@ -2265,6 +2265,19 @@ The following meta labels are available on targets during [relabeling](#relabel_
 * `__meta_stackit_postgres_flex_region`: Deployment region of the PostgresFlex instance.
 * `__meta_stackit_postgres_flex_status`: Current operational status of the instance.
 
+#### `mongodb_flex`
+
+The `mongodb_flex` role discovers scrape targets per [MongoDBFlex API](https://docs.api.eu01.stackit.cloud/documentation/mongodb-flex-service/version/v2#tag/instance).
+
+For the Scrape configuration to function properly, a valid Authorization Bearer Token must be configured.
+
+The following meta labels are available on targets during [relabeling](#relabel_config):
+
+* `__meta_stackit_mongodb_flex_id`: Instance's unique identifier.
+* `__meta_stackit_mongodb_flex_name`: Human-readable instance name.
+* `__meta_stackit_mongodb_flex_region`: Deployment region of the MongoDBFlex instance.
+* `__meta_stackit_mongodb_flex_status`: Current operational status of the instance.
+
 See below for the configuration options for STACKIT discovery:
 
 ```yaml

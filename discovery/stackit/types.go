@@ -50,3 +50,15 @@ type PostgresFlex struct {
 	Name   string `json:"name"`
 	Status string `json:"status"`
 }
+
+// MongoDBFlexListResponse Response object for MongoDBFlex list request.
+// https://docs.api.eu01.stackit.cloud/documentation/mongodb-flex-service/version/v2#tag/instance
+type MongoDBFlexListResponse struct {
+	Items *[]MongoDBFlex `json:"items"`
+}
+
+type MongoDBFlex struct {
+	Id     string `json:"id"`
+	Name   string `json:"name"`
+	Status string `json:"status"`
+}

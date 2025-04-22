@@ -211,3 +211,58 @@ func (m *SDMock) HandlePostgresFlex() {
 		)
 	})
 }
+
+// HandleMongoDbFlex mocks the STACKIT MongoDbFlex V2 API.
+func (m *SDMock) HandleMongoDbFlex() {
+	m.Mux.HandleFunc("/token", func(w http.ResponseWriter, r *http.Request) {
+		reqBody, err := io.ReadAll(r.Body)
+		if err != nil {
+			w.WriteHeader(http.StatusInternalServerError)
+			_, _ = fmt.Fprint(w, err)
+			return
+		}
+
+		if !bytes.HasPrefix(reqBody, []byte("assertion=ey")) {
+			w.WriteHeader(http.StatusUnauthorized)
+			return
+		}
+
+		w.Header().Add("content-type", "application/json; charset=utf-8")
+		w.WriteHeader(http.StatusOK)
+
+		_, _ = fmt.Fprintf(w, `{"access_token": "%s"}`, testToken)
+	})
+
+	m.Mux.HandleFunc(fmt.Sprintf("/v2/projects/%s/regions/%s/instances", testProjectID, testRegion), func(w http.ResponseWriter, r *http.Request) {
+		if r.Header.Get("Authorization") != fmt.Sprintf("Bearer %s", testToken) {
+			w.WriteHeader(http.StatusUnauthorized)
+			return
+		}
+
+		w.Header().Add("content-type", "application/json; charset=utf-8")
+		w.WriteHeader(http.StatusOK)
+
+		_, _ = fmt.Fprint(w, `
+{
+  "items": [
+  	{
+		"id": "a0e9a075-e485-41ad-b62e-d1c4706a33da",
+		"name": "instance-1",
+		"status": "READY"
+  	},
+  	{
+		"id": "0ef1d96a-14f9-47a5-9477-201412c41991",
+		"name": "instance-2",
+		"status": "READY"
+  	},
+  	{
+		"id": "0ef1d96a-14f9-47a5-9477-201412c41991",
+		"name": "instance-3",
+		"status": "DELETING"
+  	}
+  ]
+}
+`,
+		)
+	})
+}
